@@ -1,17 +1,19 @@
 # 🤖 TariffBot - HTS AI Agent for TechStaX
 
 ## 📘 Overview
+
 TariffBot is a Python-based AI agent designed for trade compliance, capable of answering trade-related questions, calculating customs duties, and retrieving Harmonized Tariff Schedule (HTS) codes. Built for the TechStaX challenge, it leverages a Chroma vector store for retrieval-augmented generation (RAG), SQLite for HTS data storage, and the BART model for concise responses.
 
 ## 🚀 Features
+
 - **RAG Queries**: Answers trade questions (e.g., "What is the United States-Israel Free Trade Agreement?") using a Chroma vector store with 3591 chunks from `General Notes.pdf`.
 - **Tariff Calculations**: Computes duties based on HTS code, cost, weight, and quantity (e.g., "HTS code 0101.30.00.00, cost $10000, 500kg, 24 units").
 - **Description Lookups**: Retrieves HTS codes by product description (e.g., "What's the HTS code for donkeys?") using SQLite.
 - **Modular Design**: Integrates langchain, pandas, SQLite, and transformers for robust performance.
 
 ## 🧩 Architecture
-TariffBot processes queries through three pipelines: RAG, tariff calculation, and description lookup. Below is an ASCII diagram of the workflow:
 
+TariffBot processes queries through three pipelines: RAG, tariff calculation, and description lookup. Below is an ASCII diagram of the workflow:
 
 ```mermaid
 flowchart TD
@@ -29,10 +31,10 @@ flowchart TD
 
 ```
 
-
 ## 🧠 Pipeline Breakdown
 
 ### 🔍 RAG Pipeline
+
 - **Input**: Trade-related query (e.g., "What is the US-Korea FTA?")
 - **Steps**:
   - Embeds query with `sentence-transformers/all-MiniLM-L6-v2`
@@ -40,6 +42,7 @@ flowchart TD
   - Uses BART model (`facebook/bart-large-cnn`) to summarize relevant context
 
 ### 💰 Tariff Calculation Pipeline
+
 - **Input**: HTS code + cost + weight + quantity
 - **Steps**:
   - Parses and validates numeric inputs
@@ -48,6 +51,7 @@ flowchart TD
     `Duty = (Ad Valorem % * Cost) + (Rate per Unit * Quantity) + (Rate per Kg * Weight)`
 
 ### 🔎 HTS Description Lookup Pipeline
+
 - **Input**: Product description (e.g., "What’s the HTS code for donkeys?")
 - **Steps**:
   - Case-insensitive search in `hts_data.db` using `LIKE %...%`
@@ -68,7 +72,8 @@ flowchart TD
 ## ⚙️ Setup
 
 ### 📋 Prerequisites
-- 🐍 Python 3.10 *(avoid 3.13 due to package issues)*
+
+- 🐍 Python 3.10 _(avoid 3.13 due to package issues)_
 - 🧪 `venv` (virtual environment)
 - 🛠️ Git
 
